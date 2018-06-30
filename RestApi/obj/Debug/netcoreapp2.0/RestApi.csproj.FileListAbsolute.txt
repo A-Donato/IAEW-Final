@@ -1,0 +1,11 @@
+D:\Repositories\Proyecto REST\RestApi\RestApi\bin\Debug\netcoreapp2.0\RestApi.deps.json
+D:\Repositories\Proyecto REST\RestApi\RestApi\bin\Debug\netcoreapp2.0\RestApi.runtimeconfig.json
+D:\Repositories\Proyecto REST\RestApi\RestApi\bin\Debug\netcoreapp2.0\RestApi.runtimeconfig.dev.json
+D:\Repositories\Proyecto REST\RestApi\RestApi\bin\Debug\netcoreapp2.0\RestApi.dll
+D:\Repositories\Proyecto REST\RestApi\RestApi\obj\Debug\netcoreapp2.0\RestApi.csprojAssemblyReference.cache
+D:\Repositories\Proyecto REST\RestApi\RestApi\obj\Debug\netcoreapp2.0\RestApi.csproj.CoreCompileInputs.cache
+D:\Repositories\Proyecto REST\RestApi\RestApi\obj\Debug\netcoreapp2.0\RestApi.AssemblyInfoInputs.cache
+D:\Repositories\Proyecto REST\RestApi\RestApi\obj\Debug\netcoreapp2.0\RestApi.AssemblyInfo.cs
+D:\Repositories\Proyecto REST\RestApi\RestApi\bin\Debug\netcoreapp2.0\RestApi.pdb
+D:\Repositories\Proyecto REST\RestApi\RestApi\obj\Debug\netcoreapp2.0\RestApi.dll
+D:\Repositories\Proyecto REST\RestApi\RestApi\obj\Debug\netcoreapp2.0\RestApi.pdb
