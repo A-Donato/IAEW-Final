@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace RestApi.Controllers
 {
+    [AllowCrossSite]
     public class VendedorController : Controller
     {
         // GET: Vendedor

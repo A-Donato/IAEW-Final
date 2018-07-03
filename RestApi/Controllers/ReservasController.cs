@@ -2,92 +2,214 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Clases;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RestApi.Model;
+using SOAP_Service;
 
 namespace RestApi.Controllers
+    
 {
+    [AllowCrossSite]
+    [Produces("application/json")]
+    [Route("api/reservas")]
     public class ReservasController : Controller
     {
-        // GET: Reservas
-        public ActionResult Index()
-        {
-            return View();
-        }
+        private ReservaEntities _db = new ReservaEntities();
 
-        // GET: Reservas/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
 
-        // GET: Reservas/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Reservas/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        // GET api/paises
+        [HttpGet, Route("local")]
+        public JsonResult ConsultarReservas()
         {
             try
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
+                if (_db.Reservas == null || !_db.Reservas.Any())
+                {
+                    return Json(new object[] { new object() });
+                }
+                return Json(_db.Reservas);
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                Console.WriteLine("{0} Exception caught.", ex);
+                return Json(ex);
             }
         }
-
-        // GET: Reservas/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Reservas/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        [HttpGet, Route("local/{codigoReserva}")]
+        public JsonResult ConsultarReservas(String codigoReserva)
         {
             try
             {
-                // TODO: Add update logic here
+                if (_db.Reservas == null || !_db.Reservas.Any())
+                {
+                    return Json(new object[] { new object() });
+                }
 
-                return RedirectToAction(nameof(Index));
+                Reserva res = _db.Reservas.FirstOrDefault(p => p.CodigoReserva == codigoReserva);
+                if (res == null)
+                {
+                    return Json(new object[] { new object() });
+                }
+                return Json(res);
+
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return Json(ex);
             }
         }
-
-        // GET: Reservas/Delete/5
-        public ActionResult Delete(int id)
+        [HttpGet, Route("proveedor/{codigoReserva}")]
+        public JsonResult ConsultarReservasProveedor([FromRoute] string codigoReserva)
         {
-            return View();
-        }
-
-        // POST: Reservas/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
+            var service = WService.Service;
+            var req = new ConsultarReservasRequest();
+            var result = new ConsultarReservasResponse();
+            req.CodigoReserva = codigoReserva;
             try
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
+                result = service.ConsultarReservaAsync(WService.Credential, req).Result.ConsultarReservaResult;
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                Console.WriteLine("{0} Exception caught.", e);
             }
+
+            return Json(result);
+        }
+
+        [HttpPost, Route("/new")]
+        public JsonResult Post([FromBody] SuperReserva res)
+        {
+            var service = WService.Service;
+            var req = new ReservarVehiculoRequest();
+            var result = new ReservarVehiculoResponse();
+
+            req.ApellidoNombreCliente = res.ApellidoNombreCliente;
+            req.FechaHoraDevolucion = res.FechaHoraDevolucion;
+            req.FechaHoraRetiro = res.FechaHoraRetiro;
+            req.IdVehiculoCiudad = res.IdVehiculoCiudad;
+            req.LugarDevolucion = (LugarRetiroDevolucion)Enum.Parse(typeof(LugarRetiroDevolucion), res.LugarDevolucion);
+            req.LugarRetiro = (LugarRetiroDevolucion)Enum.Parse(typeof(LugarRetiroDevolucion), res.LugarRetiro);
+            req.NroDocumentoCliente = res.NroDocumentoCliente;
+
+            try
+            {
+
+                result = service.ReservarVehiculoAsync(WService.Credential, req).Result.ReservarVehiculoResult;
+
+                Reserva newReserva = new Reserva()
+                {
+                    CodigoReserva = result.Reserva.CodigoReserva,
+                    //CodigoReserva = "EUVMH",
+                    FechaReserva = res.FechaReserva,
+                    IdCliente = res.IdCliente,
+                    IdVendedor = res.IdVendedor,
+                    Costo = res.Costo,
+                    PrecioVenta = res.PrecioVenta,
+                    IdVehiculoCiudad = res.IdVehiculoCiudad,
+                    IdCiudad = res.IdCiudad,
+                    IdPais = res.IdPais
+                };
+
+                if (_db.Reservas == null || !_db.Reservas.Any())
+                {
+                    return Json(new object[] { new object() });
+                }
+                if (res == null)
+                {
+                    return Json(new object[] { new object() });
+                }
+
+                _db.Reservas.Add(newReserva);
+
+                _db.SaveChanges();
+
+
+                return Json(newReserva.CodigoReserva);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("{0} Exception caught.", ex);
+                return Json(ex);
+            }
+        }
+
+        /*
+            [HttpPut, Route("/edit")]
+            public JsonResult Put(int codigoReserva, [FromBody]Reserva res)
+            {
+                try
+                {
+                    if (res == null)
+                    {
+                        return BadRequest();
+                    }
+                    if (!ModelState.IsValid)
+                    {
+                        return BadRequest(ModelState);
+                    }
+                    if ( codigoReserva != res.codigoReserva)
+                    {
+                        return BadRequest();
+                    }
+                    if (_db.Reserva.Count(e => e.Id == id) == 0)
+                    {
+                        return NotFound();
+                    }
+                    _db.Entry(res).State = System.Data.Entity.EntityState.Modified;
+
+                    _db.SaveChanges();
+
+                    return Ok(res);
+
+
+                }
+                catch (Exception ex)
+                {
+
+                    return InternalServerError(ex);
+                }
+            }*/
+        [HttpDelete, Route("/delete/{codigoReserva}")]
+        public JsonResult Delete([FromRoute] string codigoReserva)
+        {
+            var service = WService.Service;
+            var req = new CancelarReservaRequest();
+            req.CodigoReserva = codigoReserva;
+            var result = new CancelarReservaResponse();
+
+            var toBeDeleted = _db.Reservas.Find(codigoReserva);
+            if (toBeDeleted == null)
+            {
+                return Json(result.Reserva);
+            }
+            _db.Reservas.Remove(toBeDeleted);
+            _db.SaveChanges();
+            try
+            {
+                result = service.CancelarReservaAsync(WService.Credential, req).Result.CancelarReservaResult;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("{0} Exception caught.", e);
+
+            }
+                return Json(result.Reserva);
+        }
+
+
+
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _db.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

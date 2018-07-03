@@ -6,13 +6,14 @@ using System.Collections.Generic;
 
 namespace RestApi.Controllers
 {
+    [AllowCrossSite]
     [Produces("application/json")]
     [Route("api/vehiculos")]
     public class VehiculosController : Controller
     {
         // GET api/vehiculos/1/
-        [HttpGet, Route("{ciudad}/")]
-        public JsonResult ConsultarVehiculosDisponibles([FromRoute] int ciudad, DateTime fechaDesde, DateTime fechaHasta)
+        [HttpGet, Route("{ciudad}/{fechaDeste}/{fechaHasta}")]
+        public JsonResult ConsultarVehiculosDisponibles([FromRoute] int ciudad, [FromRoute] DateTime fechaDesde, [FromRoute] DateTime fechaHasta)
         {
             var service = WService.Service;
             var req = new ConsultarVehiculosRequest();
