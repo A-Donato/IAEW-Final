@@ -24,6 +24,7 @@ namespace RestApi.Controllers
         [HttpGet, Route("local")]
         public JsonResult ConsultarReservas()
         {
+            Console.WriteLine("comenzamos --------------------------");
             try
             {
                 if (_db.Reservas == null || !_db.Reservas.Any())
@@ -81,14 +82,14 @@ namespace RestApi.Controllers
 
             return Json(result);
         }
-
-        [HttpPost, Route("/new")]
-        public JsonResult Post([FromBody] SuperReserva res)
+        [AllowCrossSite]
+        [HttpPost, Route("new")]
+        public IActionResult CrearReserva([FromBody] SuperReserva res)
         {
             var service = WService.Service;
             var req = new ReservarVehiculoRequest();
             var result = new ReservarVehiculoResponse();
-
+            Console.WriteLine("comenzamos --------------------------");
             req.ApellidoNombreCliente = res.ApellidoNombreCliente;
             req.FechaHoraDevolucion = res.FechaHoraDevolucion;
             req.FechaHoraRetiro = res.FechaHoraRetiro;
@@ -99,21 +100,23 @@ namespace RestApi.Controllers
 
             try
             {
-
+                Console.WriteLine("entramos al try");
                 result = service.ReservarVehiculoAsync(WService.Credential, req).Result.ReservarVehiculoResult;
-
+                Console.WriteLine(result.Reserva.CodigoReserva);
+                Console.WriteLine(result.ToString());
+                Console.WriteLine("hizo el request");
                 Reservas newReserva = new Reservas()
                 {
                     CodigoReserva = result.Reserva.CodigoReserva,
                     //CodigoReserva = "EUVMH",
-                    FechaReserva = res.FechaReserva,
-                    IdCliente = res.IdCliente,
-                    IdVendedor = res.IdVendedor,
-                    Costo = res.Costo,
-                    PrecioVenta = res.PrecioVenta,
-                    IdVehiculoCiudad = res.IdVehiculoCiudad,
-                    IdCiudad = res.IdCiudad,
-                    IdPais = res.IdPais
+                    FechaReserva = result.Reserva.FechaReserva,
+                    IdCliente = result.Reserva.Id,
+                    IdVendedor = result.Reserva.Id,
+                    Costo = 10,
+                    PrecioVenta = 20 ,
+                    IdVehiculoCiudad = req.IdVehiculoCiudad,
+                    IdCiudad = 1,
+                    IdPais = 2,
                 };
 
                 if (_db.Reservas == null || !_db.Reservas.Any())
@@ -136,6 +139,7 @@ namespace RestApi.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine("{0} Exception caught.", ex);
+                Console.WriteLine(result);
                 return Json(ex);
             }
         }
