@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestApi.Model;
 using SOAP_Service;
-
+using RestSharp.Authenticators;
+using RestSharp;
 namespace RestApi.Controllers
     
 {
@@ -27,12 +28,14 @@ namespace RestApi.Controllers
             {
                 if (_db.Reservas == null || !_db.Reservas.Any())
                 {
+                   
                     return Json(new object[] { new object() });
                 }
                 return Json(_db.Reservas);
             }
             catch (Exception ex)
             {
+                
                 Console.WriteLine("{0} Exception caught.", ex);
                 return Json(ex);
             }
@@ -47,7 +50,7 @@ namespace RestApi.Controllers
                     return Json(new object[] { new object() });
                 }
 
-                Reserva res = _db.Reservas.FirstOrDefault(p => p.CodigoReserva == codigoReserva);
+                Reservas res = _db.Reservas.FirstOrDefault(p => p.CodigoReserva == codigoReserva);
                 if (res == null)
                 {
                     return Json(new object[] { new object() });
@@ -99,7 +102,7 @@ namespace RestApi.Controllers
 
                 result = service.ReservarVehiculoAsync(WService.Credential, req).Result.ReservarVehiculoResult;
 
-                Reserva newReserva = new Reserva()
+                Reservas newReserva = new Reservas()
                 {
                     CodigoReserva = result.Reserva.CodigoReserva,
                     //CodigoReserva = "EUVMH",

@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestApi", "RestApi\RestApi.csproj", "{88217C6F-E1E1-4E1B-949D-F13501058034}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authenticator", "Authenticator\Authenticator.csproj", "{4F303CF5-F20E-44E5-9981-F17420684AE8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{88217C6F-E1E1-4E1B-949D-F13501058034}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88217C6F-E1E1-4E1B-949D-F13501058034}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88217C6F-E1E1-4E1B-949D-F13501058034}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F303CF5-F20E-44E5-9981-F17420684AE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F303CF5-F20E-44E5-9981-F17420684AE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F303CF5-F20E-44E5-9981-F17420684AE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F303CF5-F20E-44E5-9981-F17420684AE8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

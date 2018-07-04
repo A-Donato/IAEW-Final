@@ -1,0 +1,11 @@
+D:\Repositories\Proyecto REST\RestApi\Authenticator\bin\Debug\netcoreapp2.0\Authenticator.deps.json
+D:\Repositories\Proyecto REST\RestApi\Authenticator\bin\Debug\netcoreapp2.0\Authenticator.runtimeconfig.json
+D:\Repositories\Proyecto REST\RestApi\Authenticator\bin\Debug\netcoreapp2.0\Authenticator.runtimeconfig.dev.json
+D:\Repositories\Proyecto REST\RestApi\Authenticator\bin\Debug\netcoreapp2.0\Authenticator.dll
+D:\Repositories\Proyecto REST\RestApi\Authenticator\obj\Debug\netcoreapp2.0\Authenticator.csprojAssemblyReference.cache
+D:\Repositories\Proyecto REST\RestApi\Authenticator\obj\Debug\netcoreapp2.0\Authenticator.csproj.CoreCompileInputs.cache
+D:\Repositories\Proyecto REST\RestApi\Authenticator\obj\Debug\netcoreapp2.0\Authenticator.AssemblyInfoInputs.cache
+D:\Repositories\Proyecto REST\RestApi\Authenticator\obj\Debug\netcoreapp2.0\Authenticator.AssemblyInfo.cs
+D:\Repositories\Proyecto REST\RestApi\Authenticator\bin\Debug\netcoreapp2.0\Authenticator.pdb
+D:\Repositories\Proyecto REST\RestApi\Authenticator\obj\Debug\netcoreapp2.0\Authenticator.dll
+D:\Repositories\Proyecto REST\RestApi\Authenticator\obj\Debug\netcoreapp2.0\Authenticator.pdb
